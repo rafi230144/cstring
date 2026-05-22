@@ -1,0 +1,13 @@
+#include "Cmm.h"
+#define ptr W_
+
+mallocPrimOp ( W_ n ) {
+    ptr p;
+    (p) = ccall malloc(n);
+    return (p);
+}
+
+freePrimOp ( ptr p ) {
+    ccall free(p);
+    return ();
+}
