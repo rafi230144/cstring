@@ -5,3 +5,9 @@ build
 dump
 
 Main
+
+*.hi
+*.o
+*.dump*
+*.ll
+*.s
