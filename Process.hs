@@ -35,18 +35,18 @@ toUpper = \ c ->
     _  -> c `subInt8#` 32#Int8
 
 strLen :: forall s. Addr# -> State# s -> (# State# s, Int# #)
-strLen =
-  let strLen_go = \ str i s0 ->
-        let !(# s1, c #) = readInt8OffAddr# str i s0
-        in  case c of
-              0#Int8 -> (# s1, i #)
-              _      -> strLen_go str (i +# 1#) s1
-  in  \ str s -> strLen_go str 0# s
+strLen = \ str s0 ->
+  foldr (\ _ k i s0' ->
+    let !(# s1', c #) = readInt8OffAddr# str i s0'
+    in  case c of
+          0#Int8 -> (# s1', i #)
+          _      -> k (i +# 1#) s1'
+   ) undefined (repeat ()) 0# s0
 
 process :: forall s. Addr# -> State# s -> State# s
 process = \ str s0 ->
   let !(# s1, len #) = strLen str s0
-      s2 = foldr ( \ (I# i) k s0' ->
+      s2 = foldr (\ (I# i) k s0' ->
         let !(# s1', c #) = readInt8OffAddr# str i s0'
             c' = toUpper c
             s2' = writeInt8OffAddr# str i c' s1'

@@ -15,7 +15,7 @@ import GHC.Exts
   ( Addr#
   , State#
   , RealWorld
-  , copyAddrToAddr#
+  , copyAddrToAddrNonOverlapping#
   , cstringLength#
   , unpackCString#
   )
@@ -43,8 +43,7 @@ putStrLn# = \ str s0 ->
 
 {- | Given an 'Addr#' understood as a CString,
     returns the 'State#' action
-    allocating a copy thereof on the foreign heap
-    (necessary because GHC string literals are immutable),
+    allocating a copy thereof on the foreign heap,
     printing the contents of the copy,
     applying 'process' to the copy,
     printing the contents of the copy once more,
@@ -54,7 +53,7 @@ test# :: Addr# -> State# RealWorld -> State# RealWorld
 test# = \ str s0 ->
   let len = cstringLength# str
       !(# s1, str' #) = mallocBytes# len s0
-      s2 = copyAddrToAddr# str str' len s1
+      s2 = copyAddrToAddrNonOverlapping# str str' len s1
       s3 = putStrLn# str' s2
       s4 = process str' s3
       s5 = putStrLn# str' s4
