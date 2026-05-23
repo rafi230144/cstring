@@ -7,8 +7,6 @@
   , UnboxedTuples
 #-}
 
-{-# OPTIONS_GHC -Wall #-}
-
 module Process
   ( process
   ) where
@@ -28,6 +26,9 @@ import GHC.Exts
   , pattern I#
   )
 
+unreachable :: forall a. a
+unreachable = error "Dead code!"
+
 toUpper :: Int8# -> Int8#
 toUpper = \ c ->
   case (97#Int8 `leInt8#` c) `andI#` (123#Int8 `gtInt8#` c) of
@@ -41,7 +42,7 @@ strLen = \ str s0 ->
     in  case c of
           0#Int8 -> (# s1', i #)
           _      -> k (i +# 1#) s1'
-   ) (error "Dead code in Process.strLen") (repeat ()) 0# s0
+   ) (unreachable) (repeat unreachable) 0# s0
 
 process :: forall s. Addr# -> State# s -> State# s
 process = \ str s0 ->
