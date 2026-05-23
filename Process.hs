@@ -41,7 +41,7 @@ strLen = \ str s0 ->
     in  case c of
           0#Int8 -> (# s1', i #)
           _      -> k (i +# 1#) s1'
-   ) undefined (repeat ()) 0# s0
+   ) (error "Dead code in Process.strLen") (repeat ()) 0# s0
 
 process :: forall s. Addr# -> State# s -> State# s
 process = \ str s0 ->
