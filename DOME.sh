@@ -11,13 +11,13 @@ if ! test -d "dump"; then mkdir "dump"; fi
 if "${llvm}"; then
   ghc "-fforce-recomp" "Process" "-O2" \
     "-hidir=build" "-odir=build" \
-    "-dumpdir=dump" "-ddump-to-file" "-ddump-simpl" "-dno-typeable-binds" "-keep-s-files" \
+    "-dumpdir=dump" "-ddump-to-file" "-ddump-simpl" "-dno-typeable-binds" "-dsuppress-idinfo" "-dsuppress-module-prefixes" "-keep-s-files" \
     "-fllvm" "-optlo-passes=default<O3>" "-optlc-O3" "-optlc-mcpu=native" \
     1>"/dev/null"
 else
   ghc "-fforce-recomp" "Process" "-O2" \
     "-hidir=build" "-odir=build" \
-    "-dumpdir=dump" "-ddump-to-file" "-ddump-simpl" "-dno-typeable-binds" "-keep-s-files" \
+    "-dumpdir=dump" "-ddump-to-file" "-ddump-simpl" "-dno-typeable-binds" "-dsuppress-idinfo" "-dsuppress-module-prefixes" "-keep-s-files" \
     1>"/dev/null"
 fi
 mv "Process.s" "dump/Process.s"
