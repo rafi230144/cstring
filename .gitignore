@@ -1,7 +1,7 @@
 .DS_Store
 .localized
 
-*.hi
-*.o
+build
+dump
 
 Main
