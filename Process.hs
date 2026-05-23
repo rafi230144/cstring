@@ -21,11 +21,11 @@ import GHC.Exts
   , Int#
   , andI#
   , (+#)
-  , pattern I#
   , Addr#
-  , readInt8OffAddr#
-  , writeInt8OffAddr#
   , State#
+  , writeInt8OffAddr#
+  , readInt8OffAddr#
+  , pattern I#
   )
 
 toUpper :: Int8# -> Int8#
