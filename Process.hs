@@ -7,6 +7,8 @@
   , UnboxedTuples
 #-}
 
+{-# OPTIONS_GHC -Wall #-}
+
 module Process
   ( process
   ) where
